@@ -1,5 +1,6 @@
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import io.restassured.response.Response;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.anyOf;
@@ -40,5 +41,29 @@ public class CreatePetTest {
                 .statusCode(anyOf(is(200), is(201)))
                 .body("category.name", is(not("")))
                 .log().all();
+
+        Response response = RestAssured
+                .given()
+                .post("https://petstore.swagger.io/v2/pet")
+                .then()
+                .contentType(ContentType.XML)
+                .extract()
+                .response();
+
+        System.out.println(response);
     }
+
+
+    @Test
+    public void getPetById () {
+        RestAssured
+                .given()
+                .when()
+                .get("https://petstore.swagger.io/v2/pet/9216678377732767381")
+                .then()
+                .statusCode(anyOf(is(200), is(201)))
+                .body("name", is("varan"))
+                .log().all();
+    }
+
 }
