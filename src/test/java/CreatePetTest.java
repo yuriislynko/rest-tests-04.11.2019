@@ -51,6 +51,7 @@ public class CreatePetTest {
                 .response();
 
         System.out.println(response);
+
     }
 
 
