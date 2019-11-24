@@ -2,12 +2,12 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
+import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import static org.hamcrest.CoreMatchers.anyOf;
-import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.core.Is.is;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -23,8 +23,8 @@ public class CreatePetTest {
                 .contentType(ContentType.JSON);
     }
 
-    @Test
-    public void test1CreatePet() {
+    @Before
+    public void CreatePet() {
 
         String body = "{\n" +
                 "  \"id\": 0,\n" +
@@ -53,7 +53,15 @@ public class CreatePetTest {
                 .body("category.name", is(not("")))
                 .log().all();
         petId = response.extract().body().path("id");
-        System.out.println(petId);
+    }
+
+    @Test
+    public void test1CreatePet(){
+        given()
+                .response()
+                .statusCode(anyOf(is(200), is(201)))
+                .body("name", is("varan"))
+                .log().all();
     }
 
     @Test
@@ -72,6 +80,12 @@ public class CreatePetTest {
                 .delete(PetEndpoint.DELETE_PET, petId)
                 .then()
                 .statusCode(anyOf(is(200), is(201)))
+                .log().all();
+        given()
+                .get(PetEndpoint.GET_PET, petId)
+                .then()
+                .statusCode(is(404))
+                .body("message", is("Pet not found"))
                 .log().all();
     }
 
