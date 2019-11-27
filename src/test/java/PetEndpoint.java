@@ -3,6 +3,7 @@ import io.restassured.filter.log.LogDetail;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
+import io.restassured.response.ExtractableResponse;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 
@@ -11,6 +12,7 @@ public class PetEndpoint {
     public final static String GET_PET = "/pet/{petId}";
     public final static String DELETE_PET = "/pet/{petId}";
     public final static String GET_BY_STATUS = "/pet/findByStatus{extStatus}";
+    public final static String UPDATE_PET = "/pet/{petId}";
 
     static {
         RestAssured.filters(new ResponseLoggingFilter(LogDetail.ALL));
@@ -48,4 +50,16 @@ public class PetEndpoint {
                 .get(GET_BY_STATUS, extStatus)
                 .then();
     }
+
+    /*public ValidatableResponse updatePet (long petId, String name) {
+        return given()
+                .post(UPDATE_PET, petId)
+                .then();
+    }*/
+
+    /*public ExtractableResponse updatePet(long petId) {
+        return (ExtractableResponse) given()
+                .post(UPDATE_PET, petId)
+                .then();
+    }*/
 }
