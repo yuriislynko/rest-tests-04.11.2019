@@ -10,6 +10,7 @@ public class PetEndpoint {
     public final static String CREATE_PET = "/pet";
     public final static String GET_PET = "/pet/{petId}";
     public final static String DELETE_PET = "/pet/{petId}";
+    public final static String GET_BY_STATUS = "/pet/findByStatus{extStatus}";
 
     static {
         RestAssured.filters(new ResponseLoggingFilter(LogDetail.ALL));
@@ -39,6 +40,12 @@ public class PetEndpoint {
     public ValidatableResponse deletePet (long petId) {
         return given()
                 .delete(DELETE_PET, petId)
+                .then();
+    }
+
+    public ValidatableResponse getPetByStatus (String extStatus) {
+        return given()
+                .get(GET_BY_STATUS, extStatus)
                 .then();
     }
 }

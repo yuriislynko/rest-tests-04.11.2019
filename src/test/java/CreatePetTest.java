@@ -10,6 +10,8 @@ public class CreatePetTest {
     private PetEndpoint petEndpoint = new PetEndpoint();
 
     private static long petId;
+    private static String status;
+    private static String extStatus;
     private String body = "{\n" +
             "  \"id\": 0,\n" +
             "  \"category\": {\n" +
@@ -26,7 +28,7 @@ public class CreatePetTest {
             "      \"name\": \"string\"\n" +
             "    }\n" +
             "  ],\n" +
-            "  \"status\": \"available\"\n" +
+            "  \"status\": \"Qavailable\"\n" +
             "}";
 
     @Before
@@ -37,6 +39,10 @@ public class CreatePetTest {
                 .statusCode(is(200))
                 .body("category.name", is(not("")));
         petId = response.extract().body().path("id");
+        status = response.extract().body().path("status");
+        String extStatus = "?status=" + status;
+        System.out.println(petId);
+        System.out.println("STATUS is XXX: " + extStatus);
     }
 
     @Test
@@ -67,6 +73,14 @@ public class CreatePetTest {
                 .getPet(petId)
                 .statusCode(is(404))
                 .body("message", is("Pet not found"));
+    }
+
+    @Test
+    public void getPetByStatus(){
+        petEndpoint
+                .getPetByStatus(extStatus)
+                .statusCode(is(200))
+                .body("category.name", is(not("")));
     }
 
 }
