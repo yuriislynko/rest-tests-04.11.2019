@@ -1,9 +1,9 @@
+import data.Pet;
 import io.restassured.RestAssured;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
-import io.restassured.response.ExtractableResponse;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 
@@ -13,6 +13,8 @@ public class PetEndpoint {
     public final static String DELETE_PET = "/pet/{petId}";
     public final static String GET_BY_STATUS = "/pet/findByStatus{status}";
     public final static String UPDATE_PET = "/pet/{petId}";
+    public final static String GET_PET_BY_STATUS = "/pet/findByStatus";
+    public final static String UPDATE_PET_BY_ID = "/pet/{petId}";
 
     static {
         RestAssured.filters(new ResponseLoggingFilter(LogDetail.ALL));
@@ -26,9 +28,9 @@ public class PetEndpoint {
                 .contentType(ContentType.JSON);
     }
 
-    public ValidatableResponse createPet (String body) {
+    public ValidatableResponse createPet (Pet pet) {
         return given()
-                .body(body)
+                .body(pet)
                 .post(CREATE_PET)
                 .then();
     }
@@ -48,19 +50,23 @@ public class PetEndpoint {
     public ValidatableResponse getPetByStatus (String status) {
         return given()
                 .queryParam("status", status)
-                .get(GET_BY_STATUS)
+                .get(GET_PET_BY_STATUS)
                 .then();
     }
 
-    /*public ValidatableResponse updatePet (long petId, String name) {
+    public ValidatableResponse updatePet (String body) {
         return given()
-                .post(UPDATE_PET, petId)
+                .body(body)
+                .put(UPDATE_PET)
                 .then();
-    }*/
 
-    /*public ExtractableResponse updatePet(long petId) {
-        return (ExtractableResponse) given()
-                .post(UPDATE_PET, petId)
+        public ValidatableResponse updatePetById (long petId, String petName, String petStatus) {
+            return  given()
+                    .contentType(ContentType.URLENC)
+                    .formParam("name", petName)
+                    .formParam("status", petStatus)
+                    .post(UPDATE_PET_BY_ID, petId)
                 .then();
-    }*/
+    }
+
 }
