@@ -11,7 +11,7 @@ public class PetEndpoint {
     public final static String CREATE_PET = "/pet";
     public final static String GET_PET = "/pet/{petId}";
     public final static String DELETE_PET = "/pet/{petId}";
-    public final static String GET_BY_STATUS = "/pet/findByStatus{extStatus}";
+    public final static String GET_BY_STATUS = "/pet/findByStatus{status}";
     public final static String UPDATE_PET = "/pet/{petId}";
 
     static {
@@ -45,9 +45,10 @@ public class PetEndpoint {
                 .then();
     }
 
-    public ValidatableResponse getPetByStatus (String extStatus) {
+    public ValidatableResponse getPetByStatus (String status) {
         return given()
-                .get(GET_BY_STATUS, extStatus)
+                .queryParam("status", status)
+                .get(GET_BY_STATUS)
                 .then();
     }
 

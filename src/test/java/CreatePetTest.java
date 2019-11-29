@@ -11,9 +11,7 @@ public class CreatePetTest {
 
     private static long petId;
     private static String status;
-    private static String subStatus = "?status=";
-    private static String extStatus;
-    //private static String name = "varan!";
+
     private String body = "{\n" +
             "  \"id\": 0,\n" +
             "  \"category\": {\n" +
@@ -30,7 +28,7 @@ public class CreatePetTest {
             "      \"name\": \"string\"\n" +
             "    }\n" +
             "  ],\n" +
-            "  \"status\": \"available\"\n" +
+            "  \"status\": \"Xavailable\"\n" +
             "}";
 
     @Before
@@ -42,10 +40,9 @@ public class CreatePetTest {
                 .body("category.name", is(not("")));
         petId = response.extract().body().path("id");
         status = response.extract().body().path("status");
-        extStatus = subStatus + status;
         ///
         System.out.println(petId);
-        System.out.println(extStatus);
+        System.out.println(status);
     }
 
     @Test
@@ -81,7 +78,7 @@ public class CreatePetTest {
     @Test
     public void getPetByStatus(){
         petEndpoint
-                .getPetByStatus(extStatus)
+                .getPetByStatus(status)
                 .statusCode(is(200))
                 .body("category.name", is(not("")));
     }
