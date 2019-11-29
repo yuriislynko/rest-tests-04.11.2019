@@ -11,8 +11,7 @@ public class PetEndpoint {
     public final static String CREATE_PET = "/pet";
     public final static String GET_PET = "/pet/{petId}";
     public final static String DELETE_PET = "/pet/{petId}";
-    public final static String GET_BY_STATUS = "/pet/findByStatus{status}";
-    public final static String UPDATE_PET = "/pet/{petId}";
+    public final static String UPDATE_PET = "/pet";
     public final static String GET_PET_BY_STATUS = "/pet/findByStatus";
     public final static String UPDATE_PET_BY_ID = "/pet/{petId}";
 
@@ -59,6 +58,7 @@ public class PetEndpoint {
                 .body(body)
                 .put(UPDATE_PET)
                 .then();
+    }
 
         public ValidatableResponse updatePetById (long petId, String petName, String petStatus) {
             return  given()

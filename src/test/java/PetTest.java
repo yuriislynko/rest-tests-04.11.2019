@@ -51,7 +51,7 @@ public class PetTest {
         petEndpoint
                 .getPet(petId)
                 .statusCode(is(404))
-                .body("message", is("data.Pet not found"));
+                .body("message", is("Pet not found"));
     }
 
     @Test
