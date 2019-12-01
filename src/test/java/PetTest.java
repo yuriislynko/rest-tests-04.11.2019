@@ -3,6 +3,8 @@ import io.restassured.response.ValidatableResponse;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
+
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.core.Is.is;
 
@@ -11,6 +13,8 @@ public class PetTest {
     private PetEndpoint petEndpoint = new PetEndpoint();
 
     private Pet pet = new Pet (0, "string", "varan", "booked");
+
+    private Pet updatedPet = new Pet (0, "pets", "dr. varan", "available?");
 
     private static long petId;
 
@@ -64,27 +68,8 @@ public class PetTest {
 
     @Test
     public void updatePet(){
-        String body = "{\n" +
-                "  \"id\": "+petId+",\n" +
-                "  \"category\": {\n" +
-                "    \"id\": 0,\n" +
-                "    \"name\": \"pets\"\n" +
-                "  },\n" +
-                "  \"name\": \"dr. varan\",\n" +
-                "  \"photoUrls\": [\n" +
-                "    \"string\"\n" +
-                "  ],\n" +
-                "  \"tags\": [\n" +
-                "    {\n" +
-                "      \"id\": 0,\n" +
-                "      \"name\": \"string\"\n" +
-                "    }\n" +
-                "  ],\n" +
-                "  \"status\": \"booked\"\n" +
-                "}";
-
         petEndpoint
-                .updatePet(body)
+                .updatePet(updatedPet)
                 .statusCode(200)
                 .body("category.name", is("pets"));
     }
@@ -100,6 +85,13 @@ public class PetTest {
                 .statusCode(200)
                 .body("name", is("dr. varan"))
                 .body("status", is("available"));
+    }
+
+    @Test
+    public void uploadPetImage (){
+        petEndpoint
+                .uploadPetImage(petId, "125521", new File("/home/joe/Изображения/varan.jpg;type=image/jpeg"));
+                //.statusCode(200);
     }
 
 }
