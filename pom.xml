@@ -20,29 +20,38 @@
         </plugins>
     </build>
 
-    <dependencies>
-        <dependency>
-            <groupId>io.rest-assured</groupId>
-            <artifactId>rest-assured</artifactId>
-            <version>4.1.2</version>
-            <scope>test</scope>
-        </dependency>
+<dependencies>
+    <!-- https://mvnrepository.com/artifact/net.serenity-bdd/serenity-rest-assured -->
+    <dependency>
+        <groupId>net.serenity-bdd</groupId>
+        <artifactId>serenity-rest-assured</artifactId>
+        <version>2.0.89</version>
+    </dependency>
 
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
-        </dependency>
+    <!-- https://mvnrepository.com/artifact/net.serenity-bdd/serenity-junit -->
+    <dependency>
+        <groupId>net.serenity-bdd</groupId>
+        <artifactId>serenity-junit</artifactId>
+        <version>2.0.89</version>
+    </dependency>
 
-        <!--for JavaObj to JSON serialisation-->
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.9.10.1</version>
-        </dependency>
+    <!--for JavaObj to JSON serialisation-->
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.9.10.1</version>
+    </dependency>
 
-    </dependencies>
+    <!-- to enable Serenity logging-->
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-simple</artifactId>
+        <version>1.7.29</version>
+        <scope>test</scope>
+    </dependency>
 
 
-</project>
+</dependencies>
+
+
+        </project>

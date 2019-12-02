@@ -1,25 +1,31 @@
 import data.Pet;
+import data.Status;
 import io.restassured.response.ValidatableResponse;
+import net.serenitybdd.junit.runners.SerenityRunner;
+import net.thucydides.core.annotations.Steps;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.File;
+import org.junit.runner.RunWith;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.core.Is.is;
 
+@RunWith(SerenityRunner.class)
 public class PetTest {
 
-    private PetEndpoint petEndpoint = new PetEndpoint();
+    //private PetEndpoint petEndpoint = new PetEndpoint();
 
-    private Pet pet = new Pet (0, "string", "varan", "booked");
+    @Steps
+    private PetEndpoint petEndpoint;
 
-    private Pet updatedPet = new Pet (0, "pets", "dr. varan", "available?");
+    private Pet pet = new Pet(0, "string", "varan", Status.pending);
+
+    private Pet updatedPet = new Pet(0, "pets", "dr. varan", Status.available);
 
     private static long petId;
 
     @Before
-    public void beforeMethod(){
+    public void beforeMethod() {
 
         ValidatableResponse response = petEndpoint
                 .createPet(pet)
@@ -29,7 +35,7 @@ public class PetTest {
     }
 
     @Test
-    public void createPet () {
+    public void createPet() {
 
         ValidatableResponse response =
                 petEndpoint
@@ -39,7 +45,7 @@ public class PetTest {
     }
 
     @Test
-    public void getPetById(){
+    public void getPetById() {
         petEndpoint
                 .getPet(petId)
                 .statusCode(is(200))
@@ -47,7 +53,7 @@ public class PetTest {
     }
 
     @Test
-    public void deletePetById(){
+    public void deletePetById() {
         petEndpoint
                 .deletePet(petId)
                 .statusCode(is(200));
@@ -59,15 +65,17 @@ public class PetTest {
     }
 
     @Test
-    public void getPetByStatus(){
+    public void getPetByStatus() {
         petEndpoint
-                .getPetByStatus("booked")
+                .getPetByStatus(Status.pending)
                 .statusCode(200)
-                .body("status[0]", is("booked"));//ToDo: verify each element status
+                .body("status", everyItem(is(Status.pending.toString())));//ToDo: verify each element status
     }
 
     @Test
-    public void updatePet(){
+    public void updatePet() {
+        Pet updatedPet = new Pet(petId, "pets", "dr. varan", Status.pending);
+
         petEndpoint
                 .updatePet(updatedPet)
                 .statusCode(200)
@@ -75,23 +83,23 @@ public class PetTest {
     }
 
     @Test
-    public void updatePetById () {
+    public void updatePetById() {
         petEndpoint
-                .updatePetById(petId, "dr. varan", "available")
-                .statusCode(200);
+                .updatePetById(petId, "dr. varan", Status.available);
 
         petEndpoint
                 .getPet(petId)
                 .statusCode(200)
                 .body("name", is("dr. varan"))
-                .body("status", is("available"));
+                .body("status", is(Status.available.toString()));
     }
 
     @Test
-    public void uploadPetImage (){
+    public void uploadPetImage() {
         petEndpoint
-                .uploadPetImage(petId, "125521", new File("/home/joe/Изображения/varan.jpg;type=image/jpeg"));
-                //.statusCode(200);
+                .uploadPetImage(petId, "varan.jpg")
+                .statusCode(200)
+                .body("message", containsString("uploaded to"));
     }
 
 }
