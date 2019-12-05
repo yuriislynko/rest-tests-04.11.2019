@@ -13,8 +13,6 @@ import static org.hamcrest.core.Is.is;
 @RunWith(SerenityRunner.class)
 public class PetTest {
 
-    //private PetEndpoint petEndpoint = new PetEndpoint();
-
     @Steps
     private PetEndpoint petEndpoint;
 

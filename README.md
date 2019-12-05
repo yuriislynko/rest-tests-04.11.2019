@@ -3,4 +3,4 @@
 
 **View Serenity HTML report:**  
 `mvn serenity:aggregate`
-http://localhost:63342/iownit-qa-tests/target/site/serenity/index.html
+http://localhost:63342/rest-tests-04.11.2019/target/site/serenity/index.html
