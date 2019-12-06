@@ -85,13 +85,6 @@
         <version>2.0.89</version>
     </dependency>
 
-    <!--for JavaObj to JSON serialisation-->
-    <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-databind</artifactId>
-        <version>2.9.10.1</version>
-    </dependency>
-
     <!-- to enable Serenity logging-->
     <dependency>
         <groupId>org.slf4j</groupId>
@@ -100,6 +93,12 @@
         <scope>test</scope>
     </dependency>
 
+    <dependency>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok</artifactId>
+        <version>1.18.10</version>
+        <scope>provided</scope>
+    </dependency>
 
 </dependencies>
 
